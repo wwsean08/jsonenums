@@ -18,8 +18,8 @@ script:
   - packages=$(go list ./... | grep -v -e /vendor/ -e /example -e /test)
   # get the coverage for all packages and combine to an overall coverage
   - 'echo "mode: set" > coverage-all.out'
-  - 'for pkg in ${packages}; do \
-     go test -coverprofile=coverage.out ${pkg}; \
+  - 'for pkg in ${packages}; do
+     go test -coverprofile=coverage.out ${pkg};
      tail -n +2 coverage.out >> coverage-all.out;'
   - go tool cover -func=coverage-all.out
   # Upload the coverage report if the token is set
