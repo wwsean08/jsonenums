@@ -19,8 +19,9 @@ script:
   # get the coverage for all packages and combine to an overall coverage
   - 'echo "mode: set" > coverage-all.out'
   - 'for pkg in ${packages}; do
-     go test -coverprofile=coverage.out ${pkg};
-     tail -n +2 coverage.out >> coverage-all.out;'
+       go test -coverprofile=coverage.out ${pkg};
+       tail -n +2 coverage.out >> coverage-all.out;
+     done'
   - go tool cover -func=coverage-all.out
   # Upload the coverage report if the token is set
   - if [ ! -z ${COVERALLS_TOKEN} ]; then goveralls -coverprofile=coverage-all.out -service=travis-ci; fi
