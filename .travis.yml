@@ -15,7 +15,7 @@ install:
 script:
   - go test ./...
   # get all the packages
-  - packages =$(go list ./... | grep -v -e /vendor/ -e /example -e /test)
+  - packages=$(go list ./... | grep -v -e /vendor/ -e /example -e /test)
   # get the coverage for all packages and combine to an overall coverage
   - 'echo "mode: set" > coverage-all.out'
   - 'for pkg in ${packages}; do \
