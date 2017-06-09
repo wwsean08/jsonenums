@@ -8,6 +8,8 @@ go:
 install:
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/mattn/goveralls
+  # Explicitly get the mainline jsonenums otherwise compilation fails on a fork
+  - go get github.com/campoy/jsonenums
 
 script:
   - go test ./...
