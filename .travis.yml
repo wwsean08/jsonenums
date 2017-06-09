@@ -10,14 +10,17 @@ install:
   - go get github.com/mattn/goveralls
   # Explicitly get the mainline jsonenums otherwise compilation fails on a fork
   - go get github.com/campoy/jsonenums
+  -
 
 script:
   - go test ./...
-  # get the coverage
+  # get all the packages
+  - packages =$(shell go list ./... | grep -v -e /vendor/ -e /example/ -e /test/)
+  # get the coverage for all packages and combine to an overall coverage
   - 'echo "mode: set" > coverage-all.out'
-  - '$(foreach pkg,$(packages),\
-     go test -coverprofile=coverage.out $(pkg);\
-     tail -n +2 coverage.out >> coverage-all.out;)'
+  - 'for pkg in ${packages}; do \
+     go test -coverprofile=coverage.out ${pkg}; \
+     tail -n +2 coverage.out >> coverage-all.out;'
   - go tool cover -func=coverage-all.out
   # Upload the coverage report if the token is set
   - if [ ! -z ${COVERALLS_TOKEN} ]; then goveralls -coverprofile=coverage-all.out -service=travis-ci; fi
